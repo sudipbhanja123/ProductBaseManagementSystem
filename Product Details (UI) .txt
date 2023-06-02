@@ -1,0 +1,557 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Collections;
+
+using BusinessLogicalLayer;
+
+namespace ProductBaseManagementSystem
+{
+    public partial class ProductDetails : Form
+    {
+        BLL bll = new BLL();
+        public ProductDetails()
+        {
+            InitializeComponent();
+        }
+
+        private void ProductDetails_Load(object sender, EventArgs e)
+        {
+            StockDetails();
+
+
+           //-------- Entry Products
+            
+            //listBoxProductWeight.Hide();
+           // listBoxUnitPrice.Hide();
+            //listBoxProductWeight.Hide();
+            //--------Search Products
+            //listBoxSearchWeight.Hide();
+            //listBoxSearchBrandName.Hide();
+            //listBoxSearchSubBrand.Hide();
+            GetBrandName();
+            GetWeight();
+        }
+
+        private void StockDetails()
+        {
+           
+
+           // cmbProductBrandName.Items.Clear();
+            //ArrayList Weight = bll.GetWeight();
+            //foreach (string s in Weight)
+            //{
+            //    cmbProductWeight.Items.Add(s);
+            //    cmbSearchWeight.Items.Add(s);
+            //}
+            DataTable dt = bll.FillGridViewFromDatabase();
+            dataGridViewStocks.DataSource = dt;
+
+            if (dataGridViewStocks.Columns.Count == dt.Columns.Count)
+            {
+                var buttoncol1 = new DataGridViewButtonColumn();
+                buttoncol1.Name = "Update";
+                buttoncol1.HeaderText = "Update";
+                buttoncol1.Text = "Update";
+                buttoncol1.UseColumnTextForButtonValue = true;
+                dataGridViewStocks.Columns.Add(buttoncol1);
+
+                var buttoncol2 = new DataGridViewButtonColumn();
+                buttoncol2.Name = "Delete";
+                buttoncol2.HeaderText = "Delete";
+                buttoncol2.Text = "Delete";
+                buttoncol2.UseColumnTextForButtonValue = true;
+                dataGridViewStocks.Columns.Add(buttoncol2);
+            }
+         }
+
+     
+
+        //   btnProductSave_Click
+        private void btnProductSave_Click(object sender, EventArgs e)
+        {
+            
+            string Message = "Do You Want To Procide";
+            string Title = "Title";
+            MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(Message, Title, Buttons);
+            
+            if(result==DialogResult.Yes)
+            {
+                bool validBrand = false;
+                bool validSubBrand = false;
+                bool validWeight = false;
+
+                if (cmbBrandName.Items.ToString()=="")
+                {
+                    lbltxtBrandName.Text = "Please Select Brand ";
+                }
+                else
+                {
+                    lbltxtBrandName.Text = "";
+                    validBrand = true;
+                }
+                if (cmbSubBrand.SelectedItem == null)
+                {
+                    lbltxtSubBrandName.Text = "Please Select SubBrand ";
+                }
+                else
+                {
+                    lbltxtSubBrandName.Text = "";
+                    validSubBrand = true;
+                }
+                if (cmbProductWeight.SelectedItem.ToString() == "")
+                {
+                    lbltxtSubBrandWeight.Text = "Please Select Weight ";
+                }
+                else
+                {
+                    lbltxtSubBrandWeight.Text = "";
+                    validWeight = true;
+                    
+                }
+                bool ValidQuantity = bll.CheckQuantityIsValid(txtProductQuantity.Text);
+                bool ValidUnitPrice = bll.CheckUnitPriceIsValid(txtProductUnitPrice.Text);
+                string ExpiryDate=dateTimePickerProducts.Value.ToString();
+
+                if (validBrand && validSubBrand && validWeight && ValidQuantity && ValidUnitPrice)
+                {
+                    string[] Details = new string[] { cmbBrandName.SelectedItem.ToString(), //BrandName
+                                                      cmbSubBrand.SelectedItem.ToString(),  // SubBrand
+                                                      cmbProductWeight.SelectedItem.ToString(), // Weight
+                                                      txtProductQuantity.Text, // Quantity
+                                                      txtProductUnitPrice.Text, //Unit Price
+                                                      ExpiryDate.ToString(),   // Expiry Date
+                                                       txtProductPaidAmount.Text,  //Paid Amount
+                                                      txtProductDealerName.Text, //Dealer Name
+                                                    };
+                    bool insert = false;
+                    try
+                    {
+                        insert = bll.InsertProductsToDatabaseBll(Details);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    if (insert == true)
+                    {
+                        MessageBox.Show("Inserted Successful !");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Inserted UnSuccessful !");
+                    }
+                }
+            }
+        }
+
+        private void dataGridViewStocks_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string BatchNo = dataGridViewStocks.Rows[e.RowIndex].Cells["BatchNumber"].Value.ToString();
+            int Coloum = dataGridViewStocks.Columns.Count;
+
+            if (e.ColumnIndex == 0)
+            {
+                if (UpdateStockDetais(e.RowIndex, BatchNo))
+                {
+                    MessageBox.Show("Update Successfull");
+                    bll.FillGridViewFromDatabase();
+                }
+                else
+                {
+                    MessageBox.Show("Update Unsuccessfull");
+                }
+
+            }
+
+            if (e.ColumnIndex == 1)
+            {
+                if (bll.DeleteRowFromDataGridView(BatchNo))
+                {
+                    dataGridViewStocks.Rows.RemoveAt(e.RowIndex);
+                    MessageBox.Show("Deleted Successfull");
+                }
+                else
+                {
+                    MessageBox.Show("Deleted Unsuccessfull");
+                }
+            }
+        }
+
+        // Update Stock Details
+        private bool UpdateStockDetais(int rows, string batchNo)
+        {
+            string[] Details = {dataGridViewStocks.Rows[rows].Cells[1].Value.ToString(),     // BrandName
+                                   dataGridViewStocks.Rows[rows].Cells[2].Value.ToString(),  // LotNo    
+                                   dataGridViewStocks.Rows[rows].Cells[3].Value.ToString(),  // SubBrandName
+                                   dataGridViewStocks.Rows[rows].Cells[5].Value.ToString(),  // SubBrandWeight
+                                   dataGridViewStocks.Rows[rows].Cells[6].Value.ToString(),  // UnitPrice
+                                   dataGridViewStocks.Rows[rows].Cells[7].Value.ToString(),  // Entry Date
+                                   dataGridViewStocks.Rows[rows].Cells[8].Value.ToString() }; // Expiry Date
+
+            bool Update = bll.UpdateProductsToDatabaseBLL(Details, batchNo);
+
+            return Update;
+        }
+
+   
+      // Button For Product Refresh 
+        private void btnProductsRefresh_Click(object sender, EventArgs e)
+        {
+            StockDetails();
+        }
+        private void lbltxtBrandName_Leave(object sender, EventArgs e)
+        {
+            //bool result = bll.checkManagerNameBll(cmbProductBrandName.SelectedItem.ToString());
+            //if (cmbProductBrandName.SelectedItem.ToString = null)
+            //{
+            //    lbltxtBrandName.Text = "Please Select Any Brand";
+            //}
+            //else
+            //{
+            //    lbltxtBrandName.Text = "";
+               
+            //}
+        }
+
+
+
+//-------------------------------------------------Entry Products------------------------------------------------------//
+
+       
+        // Textbox Product BrandName
+        private void txtProductBrandName_TextChanged(object sender, EventArgs e)
+        {
+           // listBoxBrandName.Show();
+           // listBoxBrandName.Items.Clear();
+           // DataSet ds = bll.SearchBrandBll(txtProductBrandName.Text);
+
+           //txtProductBrandName.AutoCompleteMode = AutoCompleteMode.Suggest;
+           //txtProductBrandName.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+           // AutoCompleteStringCollection coll = new AutoCompleteStringCollection();
+
+           // for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+           // {
+           //     DataRow dr = ds.Tables[0].Rows[i];
+           //     coll.Add(dr["BrandName"].ToString());
+           // }
+
+           // txtProductBrandName.AutoCompleteCustomSource = coll;
+
+           // cmbProductSubBrandName.Items.Clear();
+           // ArrayList SubBrandName = bll.GetSubBrandBySelectedBrandName(txtProductBrandName.Text);
+           // foreach (String name in SubBrandName)
+           // {
+           //     cmbProductSubBrandName.Items.Add(name);
+           // }
+            
+        }
+
+        
+        // listBoxBrand Name 
+        //private void listBoxBrandName_SelectedIndexChanged_1(object sender, EventArgs e)
+        //{
+        //    txtProductBrandName.Text = listBoxBrandName.SelectedItem.ToString();
+        //    listBoxBrandName.Hide();
+        //}
+
+        // Textbox Product weight
+        private void txtProductWeight_TextChanged(object sender, EventArgs e)
+        {
+        //    listBoxProductWeight.Show();
+        //    listBoxProductWeight.Items.Clear();
+        //    DataSet ds = bll.SearchWeightBll(txtProductWeight.Text);
+        //    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        //    {
+        //        DataRow dr = ds.Tables[0].Rows[i];
+        //        listBoxProductWeight.Items.Add(dr["weight"]);
+        //    }
+        }
+
+        private void GetWeight()
+        {
+
+            ArrayList Weight = bll.GetWeight();
+            cmbProductWeight.Items.Clear();
+            foreach (string s in Weight)
+            {
+                cmbProductWeight.Items.Add(s);
+                cmbSearchWeight.Items.Add(s);
+            }
+        }
+
+
+        private void listBoxProductWeight_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //txtProductWeight.Text = listBoxProductWeight.SelectedItem.ToString();
+            //listBoxProductWeight.Hide();
+        }
+
+       
+//-------------------------------------------------Search Products------------------------------------------------------//
+
+
+        // ListBox Search Brand Name
+        private void listBoxSearchBrandName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //txtSearchBrandName.Text = listBoxSearchBrandName.SelectedItem.ToString();
+            //listBoxSearchBrandName.Hide();
+        }
+
+        // Search Brand Name
+        private void txtSearchBrandName_TextChanged(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        // TextBox Search Weight
+        private void txtSearchWeight_TextChanged(object sender, EventArgs e)
+        {
+        //    listBoxSearchWeight.Show();
+        //    listBoxSearchWeight.Items.Clear();
+        //    DataSet ds = bll.SearchBrandBll(txtSearchWeight.Text);
+        //    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        //    {
+        //        DataRow dr = ds.Tables[0].Rows[i];
+        //        listBoxSearchWeight.Items.Add(dr["weight"]);
+
+        //    }
+        }
+
+
+
+        private void btnSearchProduct_Click(object sender, EventArgs e)
+        {
+            string BrandName;
+            string SubBrandName;
+            string Weight;
+            string LowestUnitPrice;
+            string HighestUnitPrice;
+
+            if (cmbSearchBrand.SelectedItem != null)
+            {
+                BrandName = cmbSearchBrand.SelectedItem.ToString();
+            }
+            else
+            {
+                BrandName = "";
+            }
+            if (cmbSearchSubBrand.SelectedItem != null)
+            {
+                SubBrandName = cmbSearchSubBrand.SelectedItem.ToString();
+            }
+            else
+            {
+                SubBrandName = "";
+            }
+            if (cmbSearchWeight.SelectedItem != null)
+            {
+                Weight = cmbSearchWeight.SelectedItem.ToString();
+            }
+            else
+            {
+                Weight = "";
+            }
+
+            if (txtSearchByLowestUnitPrice.Text != "")
+            {
+                LowestUnitPrice = txtSearchByLowestUnitPrice.Text;
+            }
+            else
+            {
+                LowestUnitPrice = "";
+            }
+
+            if (txtSearchByHighestUnitPrice.Text != "")
+            {
+                HighestUnitPrice = txtSearchByHighestUnitPrice.Text;
+            }
+            else
+            {
+                HighestUnitPrice = "";
+            }
+            string[] Details = {BrandName,
+                                SubBrandName,
+                                Weight,
+                                LowestUnitPrice,
+                                HighestUnitPrice};
+
+            DataTable dt = bll.SearchingItem(Details);
+            if (dt.Rows.Count > 0)
+            {
+                dataGridViewStocks.DataSource = dt;
+            }
+            else
+            {
+                MessageBox.Show("Not Available");
+                StockDetails();
+            }
+        }
+
+        private void txtProductBrandName_MouseClick(object sender, MouseEventArgs e)
+        {
+            //listBoxBrandName.Show();
+            //listBoxBrandName.Items.Clear();
+            //DataSet ds = bll.SearchBrandBll(txtProductBrandName.Text);
+            //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            //{
+            //    DataRow dr = ds.Tables[0].Rows[i];
+            //    listBoxBrandName.Items.Add(dr["BrandName"]);
+
+            //}
+
+        }
+
+        private void txtSearchBrandName_MouseClick(object sender, MouseEventArgs e)
+        {
+            //listBoxSearchBrandName.Show();
+            //listBoxSearchBrandName.Items.Clear();
+            //DataSet ds = bll.SearchBrandBll(txtSearchBrandName.Text);
+            //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            //{
+            //    DataRow dr = ds.Tables[0].Rows[i];
+            //    listBoxSearchBrandName.Items.Add(dr["BrandName"]);
+
+            //}
+        }
+
+        private void txtProductBrandName_Leave(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Leave");
+        }
+
+        private void txtProductBrandName_MouseLeave(object sender, EventArgs e)
+        {
+         //   MessageBox.Show("Leave");
+        }
+
+        private void listBoxBrandName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+      
+
+        private void GetSubBrandByName(String SelectedBrandName)
+        {
+            ArrayList SubBrand = bll.GetSubBrandBySelectedBrandName(SelectedBrandName);
+            foreach (string s in SubBrand)
+            {
+                cmbSubBrand.Items.Add(s);
+            }
+        }
+
+
+        private void GetSearchSubBrandByName(String SelectedBrandName)
+        {
+            ArrayList SubBrand = bll.GetSubBrandBySelectedBrandName(SelectedBrandName);
+            foreach (string s in SubBrand)
+            {
+                cmbSearchSubBrand.Items.Add(s);
+            }
+        }
+
+        private void pnlProductDetailsHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void GetBrandName()
+        {
+            ArrayList BrandList = bll.SearchBrandBll();
+            cmbBrandName.Items.Clear();
+            foreach (string s in BrandList)
+            {
+
+                cmbBrandName.Items.Add(s);
+                cmbSearchBrand.Items.Add(s);
+            }
+        }
+
+        private void cmbSearchBrand_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string SelectedBrand = cmbSearchBrand.SelectedItem.ToString();
+            GetSearchSubBrandByName(SelectedBrand);
+        }
+
+        private void cmbSearchSubBrand_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbltxtSearchBrand_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbltxtSearchSubBrand_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+       
+
+        // cmbBrand Name Leave
+        private void cmbBrandName_Leave(object sender, EventArgs e)
+        {
+            string SelectedBrand = cmbBrandName.SelectedItem.ToString();
+            GetSubBrandByName(SelectedBrand);
+        }
+        // cmbPoductWeight Leave
+        private void cmbProductWeight_Leave(object sender, EventArgs e)
+        {
+
+        }
+        // txtProductUnitPrice Leave
+        private void txtProductUnitPrice_Leave(object sender, EventArgs e)
+        {
+
+        }
+        // cmbSubBrand Leave
+        private void cmbSubBrand_Leave(object sender, EventArgs e)
+        {
+
+        }
+        //txtxProductQuantity Leave
+        private void txtProductQuantity_Leave(object sender, EventArgs e)
+        {
+
+        }
+
+        //dealer name
+        private void txtProductDealerName_Leave(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtProductPaidAmount_Leave(object sender, EventArgs e)
+        {
+
+        }
+       
+
+       
+
+
+       
+       
+    }
+}

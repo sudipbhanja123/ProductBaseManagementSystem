@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9BD1C6B2-4F48-4E63-B978-29C66F0865A5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProductBaseManagementSystem</RootNamespace>
+    <AssemblyName>ProductBaseManagementSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminForgotPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForgotPassword.Designer.cs">
+      <DependentUpon>AdminForgotPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Electric.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Electric.Designer.cs">
+      <DependentUpon>Electric.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ElectricBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ElectricBill.Designer.cs">
+      <DependentUpon>ElectricBill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerForgotPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerForgotPassword.Designer.cs">
+      <DependentUpon>ManagerForgotPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminLogin.Designer.cs">
+      <DependentUpon>AdminLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerLogin.Designer.cs">
+      <DependentUpon>ManagerLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerHire.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerHire.Designer.cs">
+      <DependentUpon>ManagerHire.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewProducts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewProducts.Designer.cs">
+      <DependentUpon>NewProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Others.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Others.Designer.cs">
+      <DependentUpon>Others.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductDetails.Designer.cs">
+      <DependentUpon>ProductDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShopRent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShopRent.Designer.cs">
+      <DependentUpon>ShopRent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sign Up.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sign Up.Designer.cs">
+      <DependentUpon>Sign Up.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction.Designer.cs">
+      <DependentUpon>Transaction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transport.Designer.cs">
+      <DependentUpon>Transport.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AdminForgotPassword.resx">
+      <DependentUpon>AdminForgotPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Electric.resx">
+      <DependentUpon>Electric.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ElectricBill.resx">
+      <DependentUpon>ElectricBill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerForgotPassword.resx">
+      <DependentUpon>ManagerForgotPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Home.resx">
+      <DependentUpon>Home.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminLogin.resx">
+      <DependentUpon>AdminLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerLogin.resx">
+      <DependentUpon>ManagerLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerHire.resx">
+      <DependentUpon>ManagerHire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewProducts.resx">
+      <DependentUpon>NewProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Others.resx">
+      <DependentUpon>Others.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductDetails.resx">
+      <DependentUpon>ProductDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="ShopRent.resx">
+      <DependentUpon>ShopRent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sign Up.resx">
+      <DependentUpon>Sign Up.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction.resx">
+      <DependentUpon>Transaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transport.resx">
+      <DependentUpon>Transport.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Bill  %286%29.png" />
+    <Content Include="Images\eye %281%29.png" />
+    <Content Include="Images\eye %284%29.png" />
+    <Content Include="Images\eye %286%29.png" />
+    <Content Include="Images\eye %288%29.png" />
+    <Content Include="Images\Forgot Password  %285%29.png" />
+    <Content Include="Images\hidden %281%29.png" />
+    <Content Include="Images\hidden %283%29.png" />
+    <Content Include="Images\hidden %285%29.png" />
+    <Content Include="Images\Home %288%29.png" />
+    <Content Include="Images\home icon 1.png" />
+    <Content Include="Images\Icon1.ico" />
+    <Content Include="Images\Icons\Forgot Password.png" />
+    <Content Include="Images\Icons\Home.jfif" />
+    <Content Include="Images\Icons\password-50.png" />
+    <Content Include="Images\Icons\icons8-home-50.png" />
+    <Content Include="Images\Icons\Manager.png" />
+    <Content Include="Images\Icons\Login.png" />
+    <Content Include="Images\Icons\Other Expenses.jfif" />
+    <Content Include="Images\Icons\product details.png" />
+    <Content Include="Images\Icons\transition.png" />
+    <Content Include="Images\image 2.jpg" />
+    <Content Include="Images\Login  %284%29.png" />
+    <Content Include="Images\Manager %287%29.png" />
+    <Content Include="Images\pexels-aarón-lares-8573419.jpg" />
+    <Content Include="Images\pexels-chan-walrus-941864.jpg" />
+    <Content Include="Images\pexels-chris-f-1283219.jpg" />
+    <Content Include="Images\pexels-cottonbro-4667030.jpg" />
+    <Content Include="Images\pexels-edward-eyer-667986.jpg" />
+    <Content Include="Images\pexels-engin-akyurt-1435598 %281%29.jpg" />
+    <Content Include="Images\pexels-engin-akyurt-1552630.jpg" />
+    <Content Include="Images\pexels-hana-mara-3650616.jpg" />
+    <Content Include="Images\pexels-isabella-mendes-340996.jpg" />
+    <Content Include="Images\pexels-ivan-3089663.jpg" />
+    <Content Include="Images\pexels-kelly-l-2796105 %281%29.jpg" />
+    <Content Include="Images\pexels-kenneth-2912108.jpg" />
+    <Content Include="Images\pexels-med-yassin-ghaoui-2529468 %281%29.jpg" />
+    <Content Include="Images\pexels-michelle-riach-995686.jpg" />
+    <Content Include="Images\pexels-oleg-magni-1005642.jpg" />
+    <Content Include="Images\pexels-pixabay-207116.jpg" />
+    <Content Include="Images\pexels-ray-piedra-1545529.jpg" />
+    <Content Include="Images\pexels-thoda-creative-3868558.jpg" />
+    <Content Include="Images\pexels-vijay-putra-64738.jpg" />
+    <Content Include="Images\photo 1.jpg" />
+    <Content Include="Images\Product Details %283%29.png" />
+    <Content Include="Images\Sign-Up %282%29.png" />
+    <Content Include="Images\sign-up.png" />
+    <Content Include="Images\signup.png" />
+    <Content Include="Images\Transaction List %281%29.png" />
+    <Content Include="Images\Transaction%282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogicalLayer\BusinessLogicalLayer.csproj">
+      <Project>{59827A88-9D7E-49E4-95A9-2B7AAB2F3C08}</Project>
+      <Name>BusinessLogicalLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

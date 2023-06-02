@@ -1,0 +1,37 @@
+
+1.  Box Shadow: 10px (Horizontal Ofset) 10px(Vertical Ofset) 10px (Blur) 10px (Spread) red (Colour)
+
+2.  OverFlow     :   A. Auto      B. Scroll        C.Hidden   D. Visible
+
+3.  Float            :   A. None     B. Left           C. Right
+
+4. Gradient         :  A. Linear Gradient    ( Syntax:  Background : Linear Gradiant(direction, colour,colour) // Example : Background : Linear Gradiant ( to left,Red,Yellow);
+                            B. Radial Gradient     
+                            C. Repeating Linear Gradient     ( Syntax:  Background : Repeating Linear Gradiant(Colour ,Colour 20%, Colour 10% ) // Example : Background :Repeating Linear Gradiant ( Red,Yellow 20%, Green 20%);
+                            D. Repeating Radial Gradient 
+5. Visiblity           A. Hidden    B. Visible    C.  Collapse  ( Use In Table)
+6. Z-index            A.  Z-index  ( by Default 0)
+                          B.   Z-index : 1;   ( Appear in First Priority )
+                          C.   Z-index  : -1 ; ( Appear in Last Priority )
+7. Media Queries     
+                          A.     @media screen and (max-width: 992px)              //-------------- For Large Phone----------------------//
+                                      {
+                                             body {
+                                                          background-color: blue;
+                                                          color: white;
+                                                      }
+                                       }  
+                           B.     @media screen and (max-width: 992px)              //-------------- For Tablet  ----------------------//
+                                      {
+                                             body {
+                                                          background-color: blue;
+                                                          color: white;
+                                                      }
+                                       }  
+                            C.     @media screen and (max-width: 992px)              //-------------- For Laptop----------------------//
+                                      {
+                                             body {
+                                                          background-color: blue;
+                                                          color: white;
+                                                      }
+                                       }  

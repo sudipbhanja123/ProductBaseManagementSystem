@@ -1,0 +1,134 @@
+<-- Creating The Table For Store All The Transaction Day by Day
+create table tblTransaction(BrandName varchar(max), SubBrandName varchar(max), Quantity int, 
+SubBrandWeight varchar(max), UnitPrice float, TransactionType varchar(max),
+TransactionAmount as UnitPrice * Quantity,
+AmountStatus varchar(max), DealerName varchar(max), TransactionDate varchar(max))
+
+select * from tblTransaction
+
+<-- Ending of Transaction Table  
+<--------------------------------------------------------------------------------------------------------------->
+
+
+<--------------------------------------------------------------------------------------------------------------->
+<-- Creating The Table For Storing Electric Expenses Month by Month
+
+create table tblElectric(ElecticId UNIQUEIDENTIFIER PRIMARY KEY default newid(),
+ExpensePaidMonth varchar(max), Amount float,
+PaidAmount float, PaymentDate varchar(max),
+PaymentStatus varchar(max), DueAmount as Amount - PaidAmount)
+
+<-- Creating The Stored Procedure of Inserting Data of Eletric Expenses
+create proc spInsertTotblElectric
+@ExpensePaidMonth varchar(max),
+@Amount float,
+@PaidAmount float,
+@PaymentDate varchar(max),
+@PaymentStatus varchar(max)
+as
+begin
+	insert into tblElectric values(default, @ExpensePaidMonth, @Amount, @PaidAmount,
+									@PaymentDate, @PaymentStatus)
+end
+
+<-- Creating The Stored Procedure of Getting Data of Eletric Expenses
+create proc spGetDetailsOfElectricExpenses
+as
+begin
+	select * from tblElectric
+end
+
+<-- Ending of Electric Table
+<--------------------------------------------------------------------------------------------------------------->
+
+use dbWineShop
+<--------------------------------------------------------------------------------------------------------------->
+<-- Creating The Table For Storing Shop Rent Expenses Month by Month
+
+create table tblShopRent(ShopRentId UNIQUEIDENTIFIER PRIMARY KEY default newid(),
+RentPaidMonth varchar(max), Amount float,
+PaidAmount float, PaymentDate varchar(max), 
+PaymentStatus varchar(max), DueAmount as Amount-PaidAmount)
+
+<-- Creating The Stored Procedure of Inserting Data of Shop Rent Expenses
+create proc spInsertTotblShopRent
+@RentPaidMonth varchar(max),
+@Amount float,
+@PaidAmount float,
+@PaymentDate varchar(max), 
+@PaymentStatus varchar(max)
+as
+begin
+	insert into tblShopRent values(default, @RentPaidMonth, @Amount, @PaidAmount,
+									@PaymentDate, @PaymentStatus)
+end
+
+<-- Creating The Stored Procedure of Getting Data of Shop Rent Expenses
+create proc spGetDetailsOfShopRentExpenses
+as
+begin
+	select * from tblShopRent
+end
+
+<-- Ending of Shop Rent Expenses Table
+<--------------------------------------------------------------------------------------------------------------->
+
+
+<--------------------------------------------------------------------------------------------------------------->
+<-- Creating The Table For Storing Transport Expenses Day by Day
+
+create table tblTransport(TransportId UNIQUEIDENTIFIER PRIMARY KEY default newid(),
+TransportDate varchar(max), Amount float,
+PaidAmount float, PaymentDate varchar(max),
+PaymentStatus varchar(max), DueAmount as Amount - PaidAmount)
+
+select * from tblTransport
+
+-- Creating The Stored Procedure To Insert Data To tblTransport
+create proc spInsertDetailsOfTransport
+@TransportDate varchar(max),
+@Amount float,
+@PaymentAmount float,
+@PaymentDate varchar(max),
+@PaymentStatus varchar(max)
+as
+begin
+	insert into tblTransport values(default, @TransportDate, @Amount, @PaymentAmount, @PaymentDate,@PaymentStatus)
+end	
+ 
+
+<-- Creating The Stored Procedure To Give The All Details From tblTransport
+create proc spGetDetailsOfTransport
+as
+begin
+	select * from tblTransport
+end
+
+<-- Ending of Tranport Expenses Table
+<--------------------------------------------------------------------------------------------------------------->
+
+
+<--------------------------------------------------------------------------------------------------------------->
+<-- Creating The Table of Total Extra Expense
+create table tblOtherExpenses (TotalElectric float, TotalShopRent float,
+								TotalTransport  float,
+								TotalExpense as (TotalElectric + TotalShopRent + TotalTransport),
+								Month varchar(max))
+								
+<--Creating The Sored Procedure to Insert To Total Other Expenses
+alter proc spInsertIntoTotalOtherExpenses
+as
+begin
+	declare @electricAmt float
+	select @electricAmt=SUM(Amount) from tblElectric
+
+	declare @shopAmt float
+	select @shopAmt=SUM(Amount) from tblShopRent
+
+	declare @transportAmt float
+	select @transportAmt=SUM(Amount) from tblTransport
+
+	insert into tblOtherExpenses values(@electricAmt,@transportAmt,@shopAmt,'December')
+end
+
+<--------------------------------------------------------------------------------------------------------------->
